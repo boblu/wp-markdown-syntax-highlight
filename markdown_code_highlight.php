@@ -38,6 +38,7 @@ function markdown_code_highlight_head() {
 function markdown_code_highlighter( $code, $language, $rss = false ) {
     $code = stripslashes( trim( htmlspecialchars_decode( $code, ENT_NOQUOTES ) ) );
     $geshi = new GeSHi( $code, $language );
+		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
     if ( $rss == false ) {
         $geshi->set_header_type( GESHI_HEADER_NONE );
         $geshi->enable_classes();
