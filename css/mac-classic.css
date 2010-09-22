@@ -18,10 +18,12 @@
 **********************/
 #main pre {
 	line-height: 1.5em;
-	font-size: 10px;
+	font-size: 12px;
 	padding: 0;
 	background: #eae9e5;
 	border: 1px solid #c0c0c0;
+	width: 100%;
+	white-space: normal;
 }
 pre[class^="lang"] code {
 	white-space: normal;

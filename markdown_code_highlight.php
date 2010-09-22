@@ -21,24 +21,43 @@ add_filter('the_content',       'markdown_code_highlight', 7);
 add_filter('the_content_rss',   'markdown_code_highlight_rss', 7);
 add_filter('get_the_excerpt',   'markdown_code_highlight', 7);
 
+$pattern = '|<pre><code>#!([^\\n\[\]]+)(\[([^\\n]+)\])?(.*?)</code></pre>|se';
+
 function markdown_code_highlight( $text ) {
-    return preg_replace( '|<pre><code>#!([^\\n]+)(.*?)</code></pre>|se', 'markdown_code_highlighter(\'$2\',\'$1\');', $text);
+    return preg_replace($GLOBALS['pattern'], 'markdown_code_highlighter(\'$4\', \'$1\', \'$3\');', $text);
 }
 
 function markdown_code_highlight_rss( $text ) {
-    return preg_replace( '|<pre><code>#!([^\\n]+)(.*?)</code></pre>|se', 'markdown_code_highlighter(\'$2\',\'$1\',true);', $text);
+    return preg_replace($GLOBALS['pattern'], 'markdown_code_highlighter(\'$4\', \'$1\', \'$3\', true);', $text);
 }
 
 function markdown_code_highlight_head() {
     $plugin_dir_url = WP_PLUGIN_URL . '/' . str_replace( basename( __FILE__ ), "", plugin_basename( __FILE__ ) );
-    
     echo '<link rel="stylesheet" type="text/css" href="' . $plugin_dir_url . 'css/' . WP_MARKDOWN_CODE_HIGHLIGHT_CSS . '"/>';
 }
 
-function markdown_code_highlighter( $code, $language, $rss = false ) {
+function markdown_code_highlighter( $code, $language, $settings, $rss = false ) {
     $code = stripslashes( trim( htmlspecialchars_decode( $code, ENT_NOQUOTES ) ) );
+    $geshi_settings = array();
+    foreach (split('[\s,]+', $settings) as $value) {
+        $inner_ary = split('=', $value);
+        $geshi_settings[$inner_ary[0]] = $inner_ary[1];
+    }
     $geshi = new GeSHi( $code, $language );
-		$geshi->enable_line_numbers( GESHI_NORMAL_LINE_NUMBERS );
+    foreach ($geshi_settings as $key => $value) {
+        switch ($key) {
+            case 'line':
+                switch ($value) {
+                    case '1':
+                        $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+                        break;
+                    case '0':
+                        $geshi->enable_line_numbers(GESHI_NO_LINE_NUMBERS);
+                        break;
+                }
+                break;
+        }
+    }
     if ( $rss == false ) {
         $geshi->set_header_type( GESHI_HEADER_NONE );
         $geshi->enable_classes();

@@ -15,6 +15,18 @@ The shebang line will be removed in the formatted code and leave you with highli
 
     <pre class="lang-php"><code><span class="re0">$foo</span> <span class="sy0">=</span> <span class="st0">&quot;bar&quot;</span><span class="sy0">;</span></pre></code>    
 
+Adding code settings
+--------------------
+
+For example
+
+    #!php[line=1]
+    $foo = "bar";
+
+Currently only support the following:
+
+* line: 0(default) or 1
+
 Changing the style
 ------------------
 
