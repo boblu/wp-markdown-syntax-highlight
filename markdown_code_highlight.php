@@ -8,7 +8,7 @@ Author: Steve Webster
 Author URI: http://statichtml.com
 */
 
-define( 'WP_MARKDOWN_CODE_HIGHLIGHT_CSS', 'default.css' );
+define( 'WP_MARKDOWN_CODE_HIGHLIGHT_CSS', 'mac-classic.css' );
 
 if ( defined( 'GESHI_VERSION' ) == false ) {
     require dirname( __FILE__ ) . '/geshi.php';
