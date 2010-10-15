@@ -16,13 +16,15 @@
 /*
 * Global geshi styles
 **********************/
+.post pre ol {padding:0px;margin:0px;}
+
 #main pre {
 	line-height: 1.5em;
-	font-size: 14px;
+	font-size: 12px;
 	padding: 0;
 	background: #eae9e5;
 	border: 1px solid #c0c0c0;
-	width: 100%;
+	width: 99%;
 	white-space: normal;
 }
 pre[class^="lang"] code {
